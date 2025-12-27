@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudiioWrapped</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="app">
+    <div class="appBg"></div>
+
+    <div class="appShell">
+      <aside class="nav">
+        <div class="navBrand">
+          <img class="navIcon" src="icons/icon.png" alt="StudiioWrapped" />
+          <div>
+            <div class="navTitle">StudiioWrapped</div>
+            <div id="navSub" class="navSub">Loading…</div>
+          </div>
+        </div>
+
+        <nav class="navLinks">
+          <button class="navBtn active" data-view="timer">
+            <span class="navDot"></span><span>Timer</span>
+          </button>
+          <button class="navBtn" data-view="tasks">
+            <span class="navDot"></span><span>Tasks</span>
+          </button>
+          <button class="navBtn" data-view="stats">
+            <span class="navDot"></span><span>Stats</span>
+          </button>
+          <button class="navBtn" data-view="achievements">
+            <span class="navDot"></span><span>Achievements</span>
+          </button>
+          <button class="navBtn" data-view="settings">
+            <span class="navDot"></span><span>Settings</span>
+          </button>
+        </nav>
+
+        <div class="navBottom">
+          <div class="navMiniCard">
+            <div class="miniGrid">
+              <div class="miniKpi">
+                <div class="miniKpiLabel">Streak</div>
+                <div id="kpiStreak" class="miniKpiValue">—</div>
+              </div>
+              <div class="miniKpi">
+                <div class="miniKpiLabel">Week</div>
+                <div id="kpiWeek" class="miniKpiValue">—</div>
+              </div>
+            </div>
+
+            <div class="miniActions">
+              <button id="sessionBtn" class="btn primary soft">Start Session</button>
+              <button id="wrapBtn" class="btn soft">Stop & Wrap</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <div id="pageTitle" class="pageTitle">Timer</div>
+            <div id="pageSub" class="pageSub">Lock in. Track. Wrap.</div>
+          </div>
+
+          <div class="topActions">
+            <a class="btn soft" id="openWeekly" href="#">Weekly</a>
+            <a class="btn soft" id="openSessions" href="#">Sessions</a>
+          </div>
+        </header>
+
+        <!-- TIMER VIEW -->
+        <section class="view active" id="view-timer">
+          <div class="grid2">
+            <div class="panel hero">
+              <div class="heroTop">
+                <div class="heroLabel">Flow Timer</div>
+                <div class="seg">
+                  <button class="segBtn active" data-mode="focus">Focus</button>
+                  <button class="segBtn" data-mode="short">Short</button>
+                  <button class="segBtn" data-mode="long">Long</button>
+                </div>
+              </div>
+
+              <div class="ringWrap">
+                <div class="ring">
+                  <svg viewBox="0 0 120 120">
+                    <circle class="ringBg" cx="60" cy="60" r="46"></circle>
+                    <circle class="ringFg" cx="60" cy="60" r="46"></circle>
+                  </svg>
+                  <div class="ringCenter">
+                    <div id="timerBig" class="timerBig">25:00</div>
+                    <div id="timerMeta" class="timerMeta">Ready</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="heroActions">
+                <button id="timerStart" class="btn primary big">Start</button>
+                <button id="timerStop" class="btn big">Stop</button>
+                <button id="timerLinkTask" class="btn big ghost">Link Task</button>
+              </div>
+
+              <div class="heroBottom">
+                <div class="chip" id="activeTaskChip">No active task</div>
+                <div class="chip ghost" id="activeTagChip">No tag</div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Focus Summary</div>
+                <div class="panelSub">Today’s pace, your way</div>
+              </div>
+
+              <div class="kpiGrid">
+                <div class="kpi">
+                  <div class="kpiLabel">Sessions</div>
+                  <div id="kpiSessions" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Study</div>
+                  <div id="kpiStudy" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Avg</div>
+                  <div id="kpiAvg" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Switches</div>
+                  <div id="kpiSwitches" class="kpiValue">—</div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="panelHead" style="padding-top:10px;">
+                <div class="panelTitle">Top weak spots</div>
+                <div class="panelSub">High friction pages (last 7 days)</div>
+              </div>
+              <div id="weakMiniList" class="list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TASKS VIEW -->
+        <section class="view" id="view-tasks">
+          <div class="grid2">
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Tasks</div>
+                <div class="panelSub">Keep one active. Everything wraps around it.</div>
+              </div>
+
+              <div class="taskComposer">
+                <input id="taskInput" class="input" placeholder="Add a task… (e.g., AP Calc AB derivatives)" />
+                <button id="addTaskBtn" class="btn primary">Add</button>
+              </div>
+
+              <div class="tagBar">
+                <button id="tagPickerBtn" class="btn soft">Pick tag</button>
+                <div id="tagPreview" class="tagPreview">No tag selected</div>
+              </div>
+
+              <div id="taskList" class="list"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Tags</div>
+                <div class="panelSub">Color-code your life. Fast filter later.</div>
+              </div>
+
+              <div class="taskComposer">
+                <input id="tagInput" class="input" placeholder="Create tag… (Study / Robotics / Research)" />
+                <button id="addTagBtn" class="btn primary">Add</button>
+              </div>
+
+              <div id="tagList" class="list"></div>
+
+              <div class="divider"></div>
+
+              <div class="panelHead" style="padding-top:10px;">
+                <div class="panelTitle">Active selection</div>
+                <div class="panelSub">Used for sessions + timer</div>
+              </div>
+              <div class="activeBox">
+                <div id="activeTaskLine" class="activeLine">Task: —</div>
+                <div id="activeTagLine" class="activeLine">Tag: —</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STATS VIEW -->
+        <section class="view" id="view-stats">
+          <div class="grid2">
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Weekly Wrapped</div>
+                <div class="panelSub">The last 7 days, distilled</div>
+              </div>
+
+              <div class="kpiGrid">
+                <div class="kpi">
+                  <div class="kpiLabel">Total</div>
+                  <div id="wkTotal" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Sessions</div>
+                  <div id="wkSessions" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Top site</div>
+                  <div id="wkTopSite" class="kpiValue">—</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Avg</div>
+                  <div id="wkAvg" class="kpiValue">—</div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="panelHead" style="padding-top:10px;">
+                <div class="panelTitle">Top sites</div>
+                <div class="panelSub">Where your time went</div>
+              </div>
+              <div id="topSitesList" class="list"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Sessions</div>
+                <div class="panelSub">Open the replay anytime</div>
+              </div>
+
+              <div id="sessionList" class="list"></div>
+
+              <div class="divider"></div>
+
+              <div class="panelHead" style="padding-top:10px;">
+                <div class="panelTitle">Exports</div>
+                <div class="panelSub">Share cards that look premium</div>
+              </div>
+
+              <div class="btnGrid2">
+                <button id="downloadWeeklyCard" class="btn primary">Download weekly card</button>
+                <button id="downloadLatestCard" class="btn">Download latest session card</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ACHIEVEMENTS VIEW -->
+        <section class="view" id="view-achievements">
+          <div class="panel">
+            <div class="panelHead">
+              <div class="panelTitle">Achievements</div>
+              <div class="panelSub">Progress that feels real, not cringe.</div>
+            </div>
+
+            <div id="achGrid" class="achGrid"></div>
+          </div>
+        </section>
+
+        <!-- SETTINGS VIEW -->
+        <section class="view" id="view-settings">
+          <div class="grid2">
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Timer Settings</div>
+                <div class="panelSub">Tune your flow</div>
+              </div>
+
+              <div class="formGrid">
+                <label class="field">
+                  <div class="fieldLabel">Focus (min)</div>
+                  <input id="setFocus" class="input" type="number" min="1" max="180" />
+                </label>
+                <label class="field">
+                  <div class="fieldLabel">Short break (min)</div>
+                  <input id="setShort" class="input" type="number" min="1" max="60" />
+                </label>
+                <label class="field">
+                  <div class="fieldLabel">Long break (min)</div>
+                  <input id="setLong" class="input" type="number" min="1" max="90" />
+                </label>
+                <label class="field">
+                  <div class="fieldLabel">Rounds per set</div>
+                  <input id="setRounds" class="input" type="number" min="1" max="10" />
+                </label>
+              </div>
+
+              <div class="btnRow">
+                <button id="saveSettings" class="btn primary">Save</button>
+                <button id="resetSettings" class="btn">Reset</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead">
+                <div class="panelTitle">Experience</div>
+                <div class="panelSub">Small toggles, big comfort</div>
+              </div>
+
+              <div class="toggleRow">
+                <div>
+                  <div class="toggleTitle">Theme</div>
+                  <div class="toggleSub">Dark / Light</div>
+                </div>
+                <button id="toggleTheme" class="btn soft">Toggle</button>
+              </div>
+
+              <div class="toggleRow">
+                <div>
+                  <div class="toggleTitle">Timer notifications</div>
+                  <div class="toggleSub">Notify when focus/break ends</div>
+                </div>
+                <button id="toggleNotify" class="btn soft">Toggle</button>
+              </div>
+
+              <div class="toggleRow">
+                <div>
+                  <div class="toggleTitle">Open full app on click</div>
+                  <div class="toggleSub">If off, use popup only</div>
+                </div>
+                <button id="toggleOpenFull" class="btn soft">Toggle</button>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="panelHead" style="padding-top:10px;">
+                <div class="panelTitle">Danger zone</div>
+                <div class="panelSub">Local-only, so clearing is instant</div>
+              </div>
+              <button id="clearAllBtn" class="btn ghost danger">Clear all local data</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

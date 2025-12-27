@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>StudiioWrapped — Session</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="app">
+    <div class="appBg"></div>
+
+    <div class="wrapPage">
+      <header class="wrapHead">
+        <div class="wrapBrand">
+          <img class="navIcon" src="icons/icon.png" alt="StudiioWrapped" />
+          <div>
+            <div class="pageTitle">Session Wrapped</div>
+            <div id="meta" class="pageSub">Loading…</div>
+          </div>
+        </div>
+
+        <div class="topActions">
+          <a class="btn soft" href="app.html">Open App</a>
+          <a class="btn soft" href="weekly.html">Weekly</a>
+          <button id="shareBtn" class="btn primary">Download share card</button>
+          <button id="openWeakBtn" class="btn soft">Open weak spots</button>
+        </div>
+      </header>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panelHead">
+            <div class="panelTitle">Key stats</div>
+            <div class="panelSub">What happened in this session</div>
+          </div>
+          <div class="kpiGrid">
+            <div class="kpi"><div class="kpiLabel">Study time</div><div id="kpiTime" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Tab switches</div><div id="kpiSwitch" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Top weak score</div><div id="kpiWeak" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Pages</div><div id="kpiPages" class="kpiValue">—</div></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="panelHead" style="padding-top:10px;">
+            <div class="panelTitle">Weak spots</div>
+            <div class="panelSub">Where friction showed up</div>
+          </div>
+          <div id="weakList" class="list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panelHead">
+            <div class="panelTitle">Timeline</div>
+            <div class="panelSub">Where the time went</div>
+          </div>
+          <div id="timeline" class="list"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <div class="panelHead">
+          <div class="panelTitle">Per-page stats</div>
+          <div class="panelSub">Dwell + reread + thrash + scroll depth</div>
+        </div>
+        <div id="pages" class="list"></div>
+      </div>
+    </div>
+
+    <script src="replay.js"></script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>StudiioWrapped — Weekly</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="app">
+    <div class="appBg"></div>
+
+    <div class="wrapPage">
+      <header class="wrapHead">
+        <div class="wrapBrand">
+          <img class="navIcon" src="icons/icon.png" alt="StudiioWrapped" />
+          <div>
+            <div class="pageTitle">Weekly Wrapped</div>
+            <div class="pageSub">Last 7 days</div>
+          </div>
+        </div>
+
+        <div class="topActions">
+          <a class="btn soft" href="app.html">Open App</a>
+          <a class="btn soft" href="replay.html">Sessions</a>
+          <button id="shareBtn" class="btn primary">Download weekly card</button>
+        </div>
+      </header>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panelHead">
+            <div class="panelTitle">Summary</div>
+            <div class="panelSub">Your week, distilled</div>
+          </div>
+          <div class="kpiGrid">
+            <div class="kpi"><div class="kpiLabel">Total</div><div id="wkTotal" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Sessions</div><div id="wkSessions" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Avg</div><div id="wkAvg" class="kpiValue">—</div></div>
+            <div class="kpi"><div class="kpiLabel">Top site</div><div id="wkTopSite" class="kpiValue">—</div></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="panelHead" style="padding-top:10px;">
+            <div class="panelTitle">Top sites</div>
+            <div class="panelSub">Where time went</div>
+          </div>
+          <div id="topSites" class="list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panelHead">
+            <div class="panelTitle">Sessions</div>
+            <div class="panelSub">Open any replay</div>
+          </div>
+          <div id="sessionList" class="list"></div>
+
+          <div class="divider"></div>
+
+          <div class="panelHead" style="padding-top:10px;">
+            <div class="panelTitle">Recurring weak spots</div>
+            <div class="panelSub">High friction patterns</div>
+          </div>
+          <div id="weakSpots" class="list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="weekly.js"></script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "StudiioWrapped",
+  "version": "2.0.0",
+  "description": "StudiioWrapped — study timer, tasks/tags, wrapped analytics, and achievements (local-only).",
+  "permissions": ["storage", "tabs", "alarms", "notifications"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "StudiioWrapped",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/Studiiologo.png",
+      "32": "icons/Studiiologo.png",
+      "48": "icons/Studiiologo.png",
+      "128": "icons/Studiiologo.png"
+    }
+  },
+  "icons": {
+    "16": "icons/Studiiologo.png",
+    "32": "icons/Studiiologo.png",
+    "48": "icons/Studiiologo.png",
+    "128": "icons/Studiiologo.png"
+  },
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

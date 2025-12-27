@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="popup">
+    <div class="popShell">
+      <div class="popTop">
+        <div class="brandRow">
+          <img class="brandIcon" src="icons/icon.png" alt="StudiioWrapped" />
+          <div>
+            <div class="brandName">StudiioWrapped</div>
+            <div id="miniStatus" class="brandMeta">Loading…</div>
+          </div>
+        </div>
+
+        <div class="pillRow">
+          <div class="miniPill">
+            <div class="miniLabel">Streak</div>
+            <div id="miniStreak" class="miniValue">—</div>
+          </div>
+          <div class="miniPill">
+            <div class="miniLabel">This week</div>
+            <div id="miniWeek" class="miniValue">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="popActions">
+        <button id="openApp" class="btn primary big">Open StudiioWrapped</button>
+
+        <div class="btnGrid2">
+          <button id="startSession" class="btn">Start Session</button>
+          <button id="stopSession" class="btn">Stop & Wrap</button>
+        </div>
+
+        <div class="btnGrid2">
+          <button id="startFocus" class="btn">Start Focus</button>
+          <button id="stopTimer" class="btn">Stop Timer</button>
+        </div>
+
+        <button id="clearAll" class="btn ghost danger">Clear local data</button>
+      </div>
+
+      <div class="popFoot">
+        <span class="dot"></span>
+        <span>Local-only • polished MVP</span>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
