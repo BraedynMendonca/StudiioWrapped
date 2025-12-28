@@ -23,6 +23,20 @@ function fmtMMSS(ms) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+const DEFAULT_MINUTES = { focus: 25, short: 5, long: 15 };
+
+function getModeMinutes(mode, settings) {
+  const s = settings || {};
+  const raw = mode === "short" ? s.shortMin : mode === "long" ? s.longMin : s.focusMin;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : DEFAULT_MINUTES[mode] || DEFAULT_MINUTES.focus;
+}
+
+function fmtTimeOfDay(ts) {
+  const d = new Date(ts);
+  return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
+
 function escapeHtml(s) {
   return (s || "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
@@ -61,7 +75,8 @@ let UI = {
   activeTaskId: null,
   activeTagId: null,
   timerMode: "focus",
-  timerTick: null
+  timerTick: null,
+  timerRefreshTimer: null
 };
 
 // ---------- View switching (smooth) ----------
@@ -159,8 +174,16 @@ function stopLocalTimerTick() {
 }
 
 function startLocalTimerTick() {
-  stopLocalTimerTick();
+  if (UI.timerTick) return;
   UI.timerTick = setInterval(() => updateTimerUI(), 200);
+}
+
+function queueTimerRefresh() {
+  if (UI.timerRefreshTimer) return;
+  UI.timerRefreshTimer = setTimeout(async () => {
+    UI.timerRefreshTimer = null;
+    await loadAll();
+  }, 350);
 }
 
 function ringProgress(p) {
@@ -176,29 +199,49 @@ function updateTimerUI() {
   const settings = DATA.settings || {};
   const t = DATA.timer || {};
 
-  const minutes =
-    UI.timerMode === "focus" ? settings.focusMin :
-    UI.timerMode === "short" ? settings.shortMin :
-    settings.longMin;
+  const mode = t.running && t.mode ? t.mode : UI.timerMode;
+  const modeLabel =
+    mode === "focus" ? "Focus" :
+    mode === "short" ? "Short break" :
+    "Long break";
 
-  const defaultMs = minutes * 60 * 1000;
+  const minutesPlanned = getModeMinutes(mode, settings);
+  const plannedMs = minutesPlanned * 60 * 1000;
+  const totalPlanned = Number.isFinite(plannedMs) && plannedMs > 0 ? plannedMs : DEFAULT_MINUTES.focus * 60 * 1000;
 
-  let remaining = defaultMs;
+  let remaining = totalPlanned;
+  let duration = totalPlanned;
   let meta = "Ready";
-  let running = false;
+  const running = !!(t.running && t.endsAt);
 
-  if (t.running && t.endsAt && t.mode) {
-    running = true;
-    remaining = t.endsAt - Date.now();
+  if (running) {
+    const startedAt = Number.isFinite(t.startedAt) ? t.startedAt : Date.now();
+    duration = Math.max(1000, t.endsAt - startedAt); // avoid divide-by-zero
+    remaining = Math.max(0, t.endsAt - Date.now());
     meta = t.mode === "focus" ? "Focusing" : "On break";
-    if (remaining <= 0) remaining = 0;
+
+    if (remaining <= 0) {
+      queueTimerRefresh();
+    }
   }
 
   $("#timerBig").textContent = fmtMMSS(remaining);
-  $("#timerMeta").textContent = running ? meta : "Ready";
+  const endLabel = running && t.endsAt ? ` · ends ${fmtTimeOfDay(t.endsAt)}` : "";
+  $("#timerMeta").textContent = running ? `${meta}${endLabel}` : `Ready • ${modeLabel.toLowerCase()}`;
 
-  const progress = clamp(1 - remaining / defaultMs, 0, 1);
+  const progress = clamp(1 - remaining / duration, 0, 1);
   ringProgress(progress);
+
+  $("#timerModeChip").textContent = `${modeLabel} · ${minutesPlanned}m`;
+  $("#timerEndChip").textContent = running
+    ? (remaining <= 0 ? "Finishing up…" : `Ends at ${fmtTimeOfDay(t.endsAt)}`)
+    : `Ready for ${modeLabel.toLowerCase()}`;
+
+  $$(".segBtn").forEach(btn => {
+    const isActive = btn.dataset.mode === mode;
+    btn.classList.toggle("active", isActive);
+    btn.disabled = running;
+  });
 
   if (running) startLocalTimerTick();
   else stopLocalTimerTick();
