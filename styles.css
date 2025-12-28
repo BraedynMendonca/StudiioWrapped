@@ -295,6 +295,11 @@ body.app {
   transition: background 0.18s var(--ease), color 0.18s var(--ease), transform 0.12s var(--ease);
 }
 .segBtn:hover { transform: translateY(-1px); color: var(--text); }
+.segBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.segBtn:disabled:hover { transform: none; }
 .segBtn.active {
   color: white;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accentA) 88%, #000), color-mix(in srgb, var(--accentB) 80%, #000));
@@ -349,6 +354,13 @@ body.app {
   flex-wrap: wrap;
 }
 
+.timerStatusRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 10px;
+  padding: 2px 14px 10px;
+}
+
 .chip {
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.04);
@@ -361,6 +373,11 @@ body.app {
   gap: 8px;
 }
 .chip.ghost { color: var(--muted); }
+.chip.strong {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accentA) 26%, rgba(255,255,255,0.06)), color-mix(in srgb, var(--accentB) 22%, rgba(255,255,255,0.06)));
+  border-color: color-mix(in srgb, var(--accentA) 34%, var(--border));
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--accentA) 14%, transparent);
+}
 
 .tagDot {
   width: 10px; height: 10px; border-radius: 999px;
